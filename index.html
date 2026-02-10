@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For Fatina 💜</title>
+    <style>
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; margin: 0; background: #E6E6FA; /* Lavender */
+            font-family: 'Arial', sans-serif; overflow: hidden;
+        }
+        .card {
+            text-align: center; background: white; padding: 30px 20px;
+            border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 90%; max-width: 340px; position: relative; z-index: 10;
+        }
+        .user-photo { width: 100%; border-radius: 20px; margin-bottom: 20px; display: block; }
+        h1 { color: #6A5ACD; font-size: 1.5rem; margin-bottom: 25px; }
+        .purple-heart { color: #8A2BE2; font-weight: bold; }
+        .buttons { display: flex; justify-content: center; align-items: center; gap: 15px; height: 50px; }
+        button { padding: 12px 25px; font-size: 1.1rem; font-weight: bold; border: none; border-radius: 50px; cursor: pointer; transition: 0.3s; }
+        #yesBtn { background: #8A2BE2; color: white; animation: pulse 1.2s infinite; }
+        #noBtn { background: #adb5bd; color: white; position: absolute; z-index: 100; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.08); } 100% { transform: scale(1); } }
+        .success-screen { display: none; }
+        .heart-particle { position: fixed; font-size: 24px; pointer-events: none; z-index: 1000; }
+        #player { position: absolute; width: 0; height: 0; visibility: hidden; }
+    </style>
+</head>
+<body>
+
+    <div id="player"></div>
+
+    <div class="card" id="mainCard">
+        <img class="user-photo" src="https://i.postimg.cc/CZjxYst8/orca-image-2077193034-jpeg.jpg" alt="Together">
+        <h1>Will you be my Valentine, Fatina? <span class="purple-heart">💜</span></h1>
+        <div class="buttons">
+            <button id="yesBtn">YES</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
+
+    <div class="card success-screen" id="successScreen">
+        <img class="user-photo" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3ZleHgzYmt1d3Z3YmN4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KztT2c4u8mYYUiMKdJ/giphy.gif" alt="Happy Bears">
+        <h1>I love you, Fatina! <span class="purple-heart">💜</span></h1>
+        <p style="color: #6A5ACD; font-weight: bold; font-size: 1.1rem;">I knew you'd say yes! ✨</p>
+    </div>
+
+    <script>
+        // Load YouTube API for Chubina by East Duo
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '0', width: '0',
+                videoId: 'e3Rnsz7XWkk', // Chubina by East Duo
+                playerVars: { 'autoplay': 0, 'controls': 0, 'modestbranding': 1 }
+            });
+        }
+
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const mainCard = document.getElementById('mainCard');
+        const successScreen = document.getElementById('successScreen');
+
+        function moveButton() {
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 40) + 20;
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 40) + 20;
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        }
+
+        noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveButton(); });
+        noBtn.addEventListener('mouseover', moveButton);
+
+        yesBtn.addEventListener('click', () => {
+            mainCard.style.display = 'none';
+            successScreen.style.display = 'block';
+            
+            // Trigger music on user click
+            if (player && player.playVideo) {
+                player.playVideo();
+            }
+
+            for(let i=0; i<40; i++) {
+                setTimeout(createPurpleHeart, i * 120);
+            }
+        });
+
+        function createPurpleHeart() {
+            const h = document.createElement('div');
+            h.innerHTML = '💜';
+            h.className = 'heart-particle';
+            h.style.left = Math.random() * 100 + 'vw';
+            h.style.top = '100vh';
+            document.body.appendChild(h);
+            h.animate([
+                { transform: 'translateY(0) scale(1)', opacity: 1 },
+                { transform: `translateY(-110vh) rotate(${Math.random() * 360}deg) scale(1.5)`, opacity: 0 }
+            ], { duration: 3000, easing: 'ease-out' }).onfinish = () => h.remove();
+        }
+    </script>
+</body>
+</html>
